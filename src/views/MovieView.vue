@@ -1,6 +1,6 @@
 <template>
   <div v-if="!loading">
-    <div style="display: flex; justify-content: space-between; align-items: center; position:absolute">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
         <router-link to="/" style="margin-right: auto;">Volver a películas</router-link>
     </div>
     <h1>{{ movie?.title }}</h1>
