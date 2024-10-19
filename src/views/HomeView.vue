@@ -2,44 +2,20 @@
 import { ref, watchEffect } from 'vue';
 import CardComponent from '../components/CardComponent.vue';
 import { getMoviesByPag } from '../composables/GetMovies';
-import { Movie } from '../interfaces/MovieInterface';
+import { usePageStore } from '../stores/page';
+import { useDataStore } from '../stores/data';
+import { storeToRefs } from 'pinia';
 
-const data = ref<Movie[]>([]);
 const loading = ref(true);
-const page = ref(1);
+const { page } = storeToRefs(usePageStore());
+const { data } = storeToRefs(useDataStore());
+const { changePage } = usePageStore();
 
 watchEffect(async () => {
   loading.value = true;
   data.value = await getMoviesByPag(page.value);
   loading.value = false;
 });
-
-const changePage = async (up: boolean) =>{
-  loading.value = true
-  if(up == true){
-    page.value ++
-    data.value = await getMoviesByPag(page.value);
-  }else{
-    page.value --
-    data.value = await getMoviesByPag(page.value)
-  }
-  loading.value = false
-}
-
-const screenWidth = ref(window.innerWidth);
-
-window.addEventListener('resize', () => {
-  screenWidth.value = window.innerWidth;
-});
-
-watchEffect(() => {
-  console.log(1)
-  const topElement = document.getElementById('top');
-  if (topElement) {
-    topElement.style.width = `${screenWidth.value}px`;
-  }
-});
-
 </script>
 
 <template>
