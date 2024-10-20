@@ -1,57 +1,42 @@
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue';
 import CardComponent from '../components/CardComponent.vue';
-import { getMovies, getMoviesByPag, getMoviesBySearch } from '../composables/GetMovies';
 import { usePageStore } from '../stores/page';
 import { useDataStore } from '../stores/data';
 import { storeToRefs } from 'pinia';
-import { isArrayBufferView } from 'util/types';
+import { useLoadingStore } from '../stores/loading';
+import { useSearchStore } from '../stores/search';
 
-const loading = ref(true);
-const search = ref('');
+const { loading } = storeToRefs(useLoadingStore())
+const { search } = storeToRefs(useSearchStore())
 const { page } = storeToRefs(usePageStore());
 const { data } = storeToRefs(useDataStore());
 const { changePage } = usePageStore();
+const { callSearch } = useSearchStore();
+const { firstDataLoad } = useDataStore();
 
-watchEffect(async () => {
-  loading.value = true;
-  data.value = await getMoviesByPag(page.value);
-  loading.value = false;
-});
-
-const call = async () => {
-  data.value = []
-  if(search.value == ""){
-    data.value = await getMoviesByPag(1);
-    return
-  }
-  if(!loading.value){
-    loading.value = true
-    data.value = await getMoviesBySearch(search.value)
-    loading.value = false
-  }
-}
-
+firstDataLoad();
 
 </script>
 
 <template>
   <div id="top">
     <h1>Movies</h1>
-    <input v-model="search" @input="call" placeholder="Search movie">
-    <div>
+    <input v-model="search" @keyup="callSearch" placeholder="Search movie">
+    <div style="margin-top: 1vw;">
       <button @click=changePage(false) :disabled="page<=1 ">
         -
       </button>
       <button @click=changePage(true)>
         +
       </button>
+      <h3 style="margin-bottom: 0;">Page: {{ page }}</h3>
     </div>
   </div>
+
   <div v-if="!loading" id="movies">
     <CardComponent 
-      v-for="movie in data"
-      :key="movie.thumbnail"
+      v-for="(movie, i) in data"
+      :key="i"
       :title="movie.title"
       :year="movie.year"
       :thumbnail="movie.thumbnail"
@@ -59,6 +44,7 @@ const call = async () => {
     ></CardComponent>
   </div>
 </template>
+
 
 <style scoped>
 #top {
@@ -78,6 +64,5 @@ const call = async () => {
   margin: auto;
   overflow: hidden;
 }
-
 
 </style>

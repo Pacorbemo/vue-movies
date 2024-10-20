@@ -1,12 +1,19 @@
 <script setup>
+    import { useRouter } from 'vue-router';
     defineProps(["title", "year", "thumbnail", "href"])
+
+    const router = useRouter()
+
+    const push = (where) =>{
+        router.push(`/${where}`)
+    }
 </script>
 
 <template>
     <div class="card">
         <h1>{{title}}</h1>
         <h2>{{ year }}</h2>
-        <img @click="this.$router.push(`/${href}`)" :src="thumbnail">
+        <img @click="push(href)" :src="thumbnail">
     </div>
 </template>
 

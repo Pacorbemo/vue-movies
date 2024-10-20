@@ -20,29 +20,24 @@
 <script setup lang="ts">
     import { useRoute } from "vue-router";
     import { getMovie } from "../composables/GetMovie";
-    import { ref, watchEffect } from "vue";
+    import { ref } from "vue";
     import { Movie } from "../interfaces/MovieInterface";
+    import { storeToRefs } from "pinia";
+    import { useLoadingStore } from "../stores/loading";
 
     const route = useRoute();
     const { id } = route.params;
     const movie = ref<Movie>();
     const movieId = Array.isArray(id) ? id[0] : id;
-    const error = ref<string>();
-    const loading = ref(true);
+    const {loading} = storeToRefs(useLoadingStore());
 
-    watchEffect(async () => {
-        loading.value = true;
-        error.value = '';
-        try {
-            movie.value = await getMovie(movieId);
-            console.log(movie.value)
-        } catch (err) {
-            error.value = "Error al cargar la película";
-            console.error(err);
-        } finally {
-            loading.value = false;
-        }
-    });
+    const load = async () => {
+        loading.value = true
+        movie.value = await getMovie(movieId);
+        loading.value = false
+    }
+    load()
+
 </script>
 
 <style scoped>
