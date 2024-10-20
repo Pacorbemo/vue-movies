@@ -12,3 +12,7 @@ export async function getMoviesByPag(pag: number) : Promise<Movie[] >{
     return response.data as Movie[];
 }
 
+export async function getMoviesBySearch(search:string) {
+    const response = await axios.post("http://localhost:3000", {search}, { headers: { 'Content-Type': 'application/json' } })
+    return response.data as Movie[];
+}
