@@ -11,11 +11,11 @@ export async function getMoviesByPag(page: number) : Promise<Movie[] >{
     return await getMoviesBySearchPage("", page);
 }
 
-export async function getMoviesBySearch(search:string) : Promise<Movie[] >{
-    return await getMoviesBySearchPage(search, 1)
+export async function getMoviesBySearch(search:string) {
+    return await getMoviesBySearchPage(search, 0)
 }
 
-export async function getMoviesBySearchPage(search:string, page:number): Promise<Movie[] > {
+export async function getMoviesBySearchPage(search:string, page:number) {
     const response = await axios.post("http://localhost:3000", {search, page}, { headers: { 'Content-Type': 'application/json' } })
-    return response.data as Movie[];
+    return response.data;
 }

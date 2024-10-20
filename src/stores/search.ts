@@ -11,16 +11,18 @@ export const useSearchStore = defineStore("search", () => {
 	const callSearch = async () => {
 			const { data } = storeToRefs(useDataStore());
 			const { loading } = storeToRefs(useLoadingStore());
-			const { page } = storeToRefs(usePageStore())
+			const { page, maxPag, firstMaxPag } = storeToRefs(usePageStore())
 
 			page.value = 1;
 
 			if (search.value == "") {
 				data.value = await getMoviesByPag(1);
-				return;
+				maxPag.value = firstMaxPag;
 			} else if (!loading.value) {
 				loading.value = true;
-				data.value = await getMoviesBySearch(search.value);
+				const response = await getMoviesBySearch(search.value);
+				data.value = response.filteredMovies
+				maxPag.value = response.maxPages
 				loading.value = false;
 			}
 		};	

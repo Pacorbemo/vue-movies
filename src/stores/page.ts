@@ -4,29 +4,38 @@ import { getMoviesByPag, getMoviesBySearchPage } from '../composables/GetMovies'
 import { useDataStore } from './data'
 import { useSearchStore } from './search'
 import { getMaxPag } from '../composables/GetMaxPag'
+import { watch } from 'vue'
 
 export const usePageStore = defineStore('page', () => {
 	const page = ref(1)
 
 	const maxPag = ref();
+	const firstMaxPag = ref();
 
 	(async() => {
 		maxPag.value = await getMaxPag()
+		firstMaxPag.value = maxPag.value;
 	})()
 
-    const changePage = async (up?: number) =>{
+	watch(page, () => {
+		refreshPage()
+	})
+
+    const refreshPage = async () =>{
+		console.log(1)
 		const { data } = storeToRefs(useDataStore());
 		const { search } = storeToRefs(useSearchStore());
-
-		if(up) up == 1 ? page.value ++ : page.value --
 
 		if(search.value){
 			data.value = await getMoviesBySearchPage(search.value, page.value)
 		}else{
 			data.value = await getMoviesByPag(page.value)
 		}
+  	}
 
-  }
+	const changePage = (up?: number) => {
+		if(up) up == 1 ? page.value ++ : page.value --
+	}
 
-  return { page, maxPag, changePage }
+  return { page, maxPag, firstMaxPag, changePage }
 })

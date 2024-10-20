@@ -21,7 +21,9 @@ firstDataLoad();
 
 <template>
   <div id="top">
-    <h1>Movies</h1>
+    <a @click="page = 1">
+        <h1>Movies</h1>
+      </a>
     <input v-model="search" @keyup="callSearch" placeholder="Search movie">
     <div style="margin-top: 1vw;">
       <button @click=changePage(-1) :disabled="page<=1 ">
@@ -44,7 +46,9 @@ firstDataLoad();
       :thumbnail="movie.thumbnail"
       :href = "movie.href"  
     ></CardComponent>
+    <div v-if="data.length == 0">No matches found</div>
   </div>
+
 </template>
 
 
@@ -65,6 +69,10 @@ firstDataLoad();
   justify-content: center;
   margin: auto;
   overflow: hidden;
+}
+
+a{
+  cursor: pointer;
 }
 
 </style>

@@ -3,7 +3,7 @@
         <button
             v-for="number in calcPages"
             :key="number"
-            @click="buttonAction(number)"
+            @click="page = number"
             :class="focused(number)"
         >{{ number }}</button>
     </div>
@@ -14,16 +14,22 @@
     import { usePageStore } from '../stores/page';
     import { computed } from 'vue';
     const { page, maxPag } = storeToRefs(usePageStore())
-    const { changePage } = usePageStore()
 
     const focused = ((n: number) => {
         return n == page.value ? 'focused' : '';
     })
 
     const calcPages = computed(() => {
-        let numbers = []
+        let numbers : number[] = [] 
 
-        if(page.value >= maxPag.value -5){
+        if(maxPag.value == 0){
+            return
+        }else if(maxPag.value < 10){
+            for(let i = 1; i <= maxPag.value; i++){
+                numbers.push(i)
+            }
+        }
+        else if(page.value >= maxPag.value -5){
             for(let i = maxPag.value - 8; i <= maxPag.value; i++){
                 numbers.push(i)
             }
@@ -41,10 +47,6 @@
         return numbers  
     }) 
 
-    const buttonAction = (number: number) => {
-        page.value = number
-        changePage()
-    }
 
 </script>
 
