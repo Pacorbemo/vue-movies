@@ -3,27 +3,30 @@ import { defineStore, storeToRefs } from 'pinia'
 import { getMoviesByPag, getMoviesBySearchPage } from '../composables/GetMovies'
 import { useDataStore } from './data'
 import { useSearchStore } from './search'
+import { getMaxPag } from '../composables/GetMaxPag'
 
 export const usePageStore = defineStore('page', () => {
-  const page = ref(1)
+	const page = ref(1)
 
-  const changePage = async (up: boolean) =>{
-    const { data } = storeToRefs(useDataStore());
-    const { search } = storeToRefs(useSearchStore());
+	const maxPag = ref();
 
-    if(up == true){
-      page.value ++
-    }else{
-      page.value --
-    }
+	(async() => {
+		maxPag.value = await getMaxPag()
+	})()
 
-    if(search.value){
-      data.value = await getMoviesBySearchPage(search.value, page.value)
-    }else{
-      data.value = await getMoviesByPag(page.value)
-    }
+    const changePage = async (up?: number) =>{
+		const { data } = storeToRefs(useDataStore());
+		const { search } = storeToRefs(useSearchStore());
+
+		if(up) up == 1 ? page.value ++ : page.value --
+
+		if(search.value){
+			data.value = await getMoviesBySearchPage(search.value, page.value)
+		}else{
+			data.value = await getMoviesByPag(page.value)
+		}
 
   }
 
-  return { page, changePage }
+  return { page, maxPag, changePage }
 })
