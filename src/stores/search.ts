@@ -17,7 +17,7 @@ export const useSearchStore = defineStore("search", () => {
 
 			if (search.value == "") {
 				data.value = await getMoviesByPag(1);
-				maxPag.value = firstMaxPag;
+				maxPag.value = firstMaxPag.value;
 			} else if (!loading.value) {
 				loading.value = true;
 				const response = await getMoviesBySearch(search.value);

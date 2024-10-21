@@ -22,7 +22,6 @@ export const usePageStore = defineStore('page', () => {
 	})
 
     const refreshPage = async () =>{
-		console.log(1)
 		const { data } = storeToRefs(useDataStore());
 		const { search } = storeToRefs(useSearchStore());
 

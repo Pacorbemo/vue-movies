@@ -44,7 +44,7 @@ firstDataLoad();
       :title="movie.title"
       :year="movie.year"
       :thumbnail="movie.thumbnail"
-      :href = "movie.href"  
+      :href="movie.href"  
     ></CardComponent>
     <div v-if="data.length == 0">No matches found</div>
   </div>
