@@ -24,6 +24,7 @@
     justify-content: center;
     align-items: center;
     max-width: 400px; 
+    padding: 1em;
 }
 
 h1 {

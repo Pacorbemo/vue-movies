@@ -60,16 +60,17 @@ firstDataLoad();
   box-sizing: border-box;
 }
 
-#movies{
+#movies {
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 50px;
-  align-items: flex-end;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 0 50px; 
+  justify-items: center; 
+  align-items: flex-end; 
   margin: auto;
   overflow: hidden;
 }
+
 
 a{
   cursor: pointer;

@@ -1,16 +1,20 @@
 <template>
-  <div v-if="!loading">
+  <div v-if="!loading && movie">
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <router-link to="/" style="margin-right: auto;">Volver a películas</router-link>
     </div>
-    <h1>{{ movie?.title }}</h1>
+    <h1>{{ movie.title }} 
+        <button @click="toggleFavorite(movie.href)">
+            {{ existFavorite(movie.href) ? 'Remove' : 'Add' }}
+        </button>
+    </h1>
     <div class="container">
-        <img :src="movie?.thumbnail">
+        <img :src="movie.thumbnail">
         <div>
             <div class="container genres">
-                <h3 v-for="genre in movie?.genres">{{ genre }}</h3>
+                <h3 v-for="genre in movie.genres">{{ genre }}</h3>
             </div>
-            <p>{{ movie?.extract }}</p>
+            <p>{{ movie.extract }}</p>
         </div>
 
     </div>
@@ -24,12 +28,16 @@
     import { Movie } from "../interfaces/MovieInterface";
     import { storeToRefs } from "pinia";
     import { useLoadingStore } from "../stores/loading";
+    import { useFavoriteStore } from '../stores/favorite';
 
     const route = useRoute();
     const { id } = route.params;
     const movie = ref<Movie>();
     const movieId = Array.isArray(id) ? id[0] : id;
     const {loading} = storeToRefs(useLoadingStore());
+    const{toggleFavorite, existFavorite, getFavorites} = useFavoriteStore()
+
+    // getFavorites();
 
     const load = async () => {
         loading.value = true
