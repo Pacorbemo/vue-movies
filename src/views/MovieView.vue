@@ -35,9 +35,7 @@
     const movie = ref<Movie>();
     const movieId = Array.isArray(id) ? id[0] : id;
     const {loading} = storeToRefs(useLoadingStore());
-    const{toggleFavorite, existFavorite, getFavorites} = useFavoriteStore()
-
-    // getFavorites();
+    const{toggleFavorite, existFavorite} = useFavoriteStore()
 
     const load = async () => {
         loading.value = true
