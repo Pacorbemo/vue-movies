@@ -53,23 +53,7 @@ firstDataLoad();
 
 
 <style scoped>
-#top {
-  width: 100%;
-  min-width: 100%;
-  text-align:center;
-  box-sizing: border-box;
-}
 
-#movies {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); 
-  gap: 0 50px; 
-  justify-items: center; 
-  align-items: flex-end; 
-  margin: auto;
-  overflow: hidden;
-}
 
 
 a{

@@ -14,6 +14,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Movie',
     component: () => import('../views/MovieView.vue'),
   },
+  {
+    path: '/favorites',
+    name: 'Favorites',
+    component: () => import('../views/FavoritesView.vue'),
+  }
 ];
 
 // Crear el router con tipos

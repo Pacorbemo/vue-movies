@@ -19,3 +19,8 @@ export async function getMoviesBySearchPage(search:string, page:number) {
     const response = await axios.post("http://localhost:3000", {search, page}, { headers: { 'Content-Type': 'application/json' } })
     return response.data;
 }
+
+export async function getFavoriteMovies(movies: string[]){
+    const response = await axios.post("http://localhost:3000/favorites", {movies}, { headers: { 'Content-Type': 'application/json' } })
+    return response.data;
+}

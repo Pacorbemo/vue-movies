@@ -28,5 +28,5 @@ export const useFavoriteStore = defineStore('favorite', () => {
         return favorites.value.includes(href);
     }
 
-    return{favorites, toggleFavorite, existFavorite}
+    return{favorites, toggleFavorite, existFavorite, removeFavorite}
 })
