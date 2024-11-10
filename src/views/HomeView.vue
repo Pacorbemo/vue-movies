@@ -6,6 +6,7 @@ import { storeToRefs } from 'pinia';
 import { useLoadingStore } from '../stores/loading';
 import { useSearchStore } from '../stores/search';
 import PageSelectorComponent from '../components/PageSelectorComponent.vue';
+import LittleMoviesComponent from '../components/LittleMoviesComponent.vue';
 
 const { loading } = storeToRefs(useLoadingStore())
 const { search } = storeToRefs(useSearchStore())
@@ -20,6 +21,7 @@ firstDataLoad();
 </script>
 
 <template>
+  <LittleMoviesComponent />
   <div id="top">
     <a @click="page = 1">
         <h1>Movies</h1>
@@ -50,14 +52,3 @@ firstDataLoad();
   </div>
 
 </template>
-
-
-<style scoped>
-
-
-
-a{
-  cursor: pointer;
-}
-
-</style>

@@ -3,11 +3,19 @@
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <router-link to="/" style="margin-right: auto;">Volver a películas</router-link>
     </div>
-    <h1>{{ movie.title }} 
-        <button @click="toggleFavorite(movie.href)">
-            {{ existFavorite(movie.href) ? 'Remove' : 'Add' }}
+    <div id="title">
+        <h1>{{ movie.title }}</h1>
+        <button @click="toggleFavorite(movie.href)" style="background: none; border: none; cursor: pointer;" :class="{ 'active': existFavorite(movie.href) }">
+            <svg v-if="existFavorite(movie.href)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="yellow" width="50px" height="50px">
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+            </svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gray" width="50px" height="50px">
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+            </svg>
         </button>
-    </h1>
+    </div>
     <div class="container">
         <img :src="movie.thumbnail">
         <div>
@@ -47,6 +55,43 @@
 </script>
 
 <style scoped>
+
+#title{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+button{
+    font-size: 0;
+    bottom: 0;
+    outline: none;
+    width: 50px;
+    height: 50px;
+}
+
+button:hover{
+    transition:0.2s;
+    opacity: 80%;
+}
+
+button.active:hover{
+    position: relative;
+}
+
+button.active:hover::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: black;
+    transform: rotate(50deg);
+
+}
+
+
 img{
     width: 400px;
 }

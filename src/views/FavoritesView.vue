@@ -8,27 +8,30 @@ import FavoriteCardComponent from '../components/FavoriteCardComponent.vue';
 const {favorites} = storeToRefs(useFavoriteStore())
 
 let data = ref(null);
+let loading = ref(true)
 
 onMounted(async () => {
-  data.value = await getFavoriteMovies(favorites);
-  console.log(data.value)
+    data.value = await getFavoriteMovies(favorites);
+    loading.value = false
 });
 
-function handleDeleted(href){
+async function handleDeleted(href){
+    // console.log(href)
     data.value = data.value.filter(movie => movie.href != href)
 }
-
 </script>
 
 <template>
     <div id="top">
-        <h1>Favorites</h1>
+        <a>
+            <h1>Favorites</h1>
+        </a>
     </div>
 
-    <div id="movies">
+    <div id="movies" v-if="!loading">
         <FavoriteCardComponent 
-        v-for="(movie, i) in data"
-        :key="i"
+        v-for="movie in data"
+        :key="movie.href"
         :title="movie.title"
         :year="movie.year"
         :thumbnail="movie.thumbnail"
