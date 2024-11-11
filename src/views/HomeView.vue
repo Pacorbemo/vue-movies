@@ -28,13 +28,8 @@ firstDataLoad();
       </a>
     <input v-model="search" @keyup="callSearch" placeholder="Search movie">
     <div style="margin-top: 1vw;">
-      <button @click=changePage(-1) :disabled="page<=1 ">
-        -
-      </button>
-      <button @click=changePage(1) :disabled="page>=maxPag">
-        +
-      </button>
-      <h3 style="margin-bottom: 0;">Page: {{ page }}</h3>
+      <button @click=changePage(-1) :disabled="page<=1 ">-</button>
+      <button @click=changePage(1) :disabled="page>=maxPag">+</button>
       <PageSelectorComponent />
     </div>
   </div>
